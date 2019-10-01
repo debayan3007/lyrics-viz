@@ -16,8 +16,8 @@ class App extends Component {
     return (
       <div className="App">
         <XYPlot width={700} height={700}>
-          <XAxis tickFormat={v => this.props.ticks[v]} tickLabelAngle={-90} />
-          <YAxis tickFormat={v => this.props.ticks[v]} tickLabelAngle={0} />
+          <XAxis tickTotal={this.props.ticks.length} tickFormat={v => this.props.ticks[v]} tickLabelAngle={-90} />
+          <YAxis tickTotal={this.props.ticks.length} tickFormat={v => this.props.ticks[v]} tickLabelAngle={0} />
           <HorizontalGridLines tickTotal={this.props.ticks.length} />
           <VerticalGridLines tickTotal={this.props.ticks.length} />
           <MarkSeries data={this.props.data} />

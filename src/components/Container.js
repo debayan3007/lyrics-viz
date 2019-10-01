@@ -3,17 +3,16 @@ import Feed from './Feed';
 import React, { Component } from 'react';
 import dataMaker from '../utils/datamaker';
 import axios from 'axios';
+import { Container, Col, Row } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-// const lyrics = `These mist covered mountains Are a home now for me But my home is the lowlands And always will be Some day you'll return to Your valleys and your farms And you'll no longer burn To be brothers in arms Through these fields of destruction Baptisms of fire I've witnessed your suffering As the battle raged high And though they did hurt me so bad In the fear and alarm You did not desert me My brothers in arms There's so many different worlds So many different suns And we have just one world But we live in different ones Now the sun's gone to hell And the moon riding high Let me bid you farewell Every man has to die But it's written in the starlight And every line in your palm We're fools to make war On our brothers in arms`
-
-
-class Container extends Component {
+class Page extends Component {
   constructor(props) {
     super(props)
 
     // const {data, ticks} = dataMaker(lyrics)
     this.state = {
-      lyrics: '',
+      lyrics: [],
       artistName: '',
       songName: '',
       data: [],
@@ -39,12 +38,13 @@ class Container extends Component {
           songName,
           artistName,
         } = response.data
-        const { data, ticks } = dataMaker(lyrics || '')
+        const { data, ticks } = dataMaker(lyrics.replace(/\s+/gim, ' ') || '')
         self.setState({
           songName,
           artistName,
           data,
           ticks,
+          lyrics: lyrics.split('\n'),
         })
 
         console.log('self.state ', self.state)
@@ -56,15 +56,23 @@ class Container extends Component {
 
   render() {
     return (
-      <div>
+      <Container>
+      <Row>
         Song Name: {this.state.songName}
         <br />
         Artist Name: {this.state.artistName}
-        <Chart data={this.state.data} ticks={this.state.ticks} />
-        <Feed clickHandler={this.handleClick} />
-      </div>
+      </Row>
+      <Row>
+        <Col>
+          <Chart data={this.state.data} ticks={this.state.ticks} />
+        </Col>
+        <Col>
+          <Feed clickHandler={this.handleClick} lyrics={this.state.lyrics} />
+        </Col>
+      </Row>
+      </Container>
     )
   }
 }
 
-export default Container;
+export default Page;
