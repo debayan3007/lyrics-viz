@@ -3,7 +3,7 @@ import Feed from './Feed';
 import React, { Component } from 'react';
 import dataMaker from '../utils/datamaker';
 import axios from 'axios';
-import { Container, Col, Row } from 'react-bootstrap';
+import { Container, Col, Row, Jumbotron } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Page extends Component {
@@ -57,19 +57,30 @@ class Page extends Component {
   render() {
     return (
       <Container>
-      <Row>
-        Song Name: {this.state.songName}
-        <br />
-        Artist Name: {this.state.artistName}
-      </Row>
-      <Row>
-        <Col>
-          <Chart data={this.state.data} ticks={this.state.ticks} />
-        </Col>
-        <Col>
-          <Feed clickHandler={this.handleClick} lyrics={this.state.lyrics} />
-        </Col>
-      </Row>
+        <Row>
+          <Jumbotron style={{ width: '100%', height: '20vh' }}>
+            {
+              this.state.songName === '' ? <Container>
+                <h3>Select a song to see the repititveness of the lyrics...</h3>
+              </Container> : <Container>
+                <h1>{this.state.songName}</h1>
+                <p>by {this.state.artistName}</p>
+              </Container>
+            }
+          </Jumbotron>
+        </Row>
+        <Row>
+          <Col>
+            <Container>
+              <Row>
+                <Chart data={this.state.data} ticks={this.state.ticks} />
+              </Row>
+            </Container>
+          </Col>
+          <Col>
+            <Feed clickHandler={this.handleClick} lyrics={this.state.lyrics} />
+          </Col>
+        </Row>
       </Container>
     )
   }
