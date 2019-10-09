@@ -9,8 +9,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 class Page extends Component {
   constructor(props) {
     super(props)
-
-    // const {data, ticks} = dataMaker(lyrics)
     this.state = {
       lyrics: [],
       artistName: '',
@@ -23,16 +21,11 @@ class Page extends Component {
   }
 
   handleClick(inputValue) {
-    // this.setState({
-    //   url: inputValue,
-    // })
-    console.log('changed parent state', inputValue, this.state)
     const self = this;
     axios.post('/lyrics/az', {
       url: inputValue,
     })
       .then(function (response) {
-        console.log(response);
         const {
           lyrics,
           songName,
@@ -46,8 +39,6 @@ class Page extends Component {
           ticks,
           lyrics: lyrics.split('\n'),
         })
-
-        console.log('self.state ', self.state)
       })
       .catch(function (error) {
         console.log(error);

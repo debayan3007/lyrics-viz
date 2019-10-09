@@ -14,11 +14,6 @@ function parsePageAZ (body) {
   const artistDivText = $(containerDiv[2]).text().trim()
   const songDivText = $(containerDiv[4]).text()
 
-  console.log({
-    artistDivText,
-    songDivText,
-  })
-
   const artistName = artistDivText.substring(0, artistDivText.length-7)
   const songName = songDivText.substring(1, songDivText.length - 1)
   const lyrics = $(containerDiv[7]).text().trim()//.replace(/\s+/gim, ' ')
@@ -77,8 +72,6 @@ router.post('/az', function (req, res, next) {
 })
 
 router.get('/search', (req, res, next) => {
-
-  console.log(req.query)
   const {
     q,
     page
