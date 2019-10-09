@@ -65,7 +65,7 @@ router.post('/az', function (req, res, next) {
   };
 
   request(options, function (error, response, body) {
-    if (error) throw new Error(error);
+    if (error) res.send({});
 
     res.send(parsePageAZ(body));
   });
