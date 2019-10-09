@@ -46,7 +46,7 @@ class Feed extends Component {
       showResults: true,
       searchResults: [],
     })
-    axios.get(`http://localhost:2000/lyrics/search?q=${this.state.inputValue}&page=${page}`)
+    axios.get(`http://localhost:2020/lyrics/search?q=${this.state.inputValue}&page=${page}`)
       .then(function (response) {
         console.log(response.data);
         self.setState({

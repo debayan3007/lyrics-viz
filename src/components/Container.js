@@ -28,7 +28,7 @@ class Page extends Component {
     // })
     console.log('changed parent state', inputValue, this.state)
     const self = this;
-    axios.post('http://localhost:2000/lyrics/az', {
+    axios.post('http://localhost:2020/lyrics/az', {
       url: inputValue,
     })
       .then(function (response) {
