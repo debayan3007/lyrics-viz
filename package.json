@@ -18,11 +18,11 @@
     "request": "^2.88.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "develop": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "backend": "node backend/bin/www",
-    "backend-dev": "nodemon backend/bin/www",
+    "start": "node backend/bin/www",
+    "start-dev": "nodemon backend/bin/www",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
