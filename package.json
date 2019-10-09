@@ -40,7 +40,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:2020/",
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "eslint-config-react-app": "^5.0.2",
