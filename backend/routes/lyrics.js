@@ -52,20 +52,18 @@ router.get('/', function (req, res, next) {
 router.post('/az', function (req, res, next) {
   const { url } = req.body
 
-  console.log('received request')
+  console.log('received request --> ', url)
 
   var options = {
     method: 'GET',
     url,
-    headers:
-    {
-      'Postman-Token': 'a99eb5bf-65ba-4651-9c81-c44f8b724237',
-      'cache-control': 'no-cache'
-    }
   };
 
   request(options, function (error, response, body) {
-    if (error) res.send({});
+    if (error) {
+      console.log(error);
+      res.send({});
+    }
 
     res.send(parsePageAZ(body));
   });
@@ -84,10 +82,6 @@ router.get('/search', (req, res, next) => {
       q,
       w: 'songs',
       p: page,
-    },
-    headers: {
-      'Postman-Token': '8623f994-cee2-4a32-950d-78c2857bf96b',
-      'cache-control': 'no-cache'
     }
   };
 
