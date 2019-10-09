@@ -31,6 +31,9 @@ class Page extends Component {
           songName,
           artistName,
         } = response.data
+
+        console.log(response.data);
+
         const { data, ticks } = dataMaker(lyrics.replace(/\s+/gim, ' ') || '')
         self.setState({
           songName,
