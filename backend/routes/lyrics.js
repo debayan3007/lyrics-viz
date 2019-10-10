@@ -59,10 +59,12 @@ router.post('/az', function (req, res, next) {
     url,
   };
 
+  console.log('option')
+
   request(options, function (error, response, body) {
     if (error) {
       console.log(error);
-      res.send({});
+      res.send({ error: true, erorObj: error });
     }
 
     res.send(parsePageAZ(body));
