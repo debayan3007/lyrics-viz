@@ -2,65 +2,50 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-const cheerio = require('cheerio');
 
-function parsePageAZ (body) {
-  const $ = cheerio.load(body)
+const API_KEY = '7c80e5e7f430562b61edae8165b751d7';
 
-  let containerDiv = $('.container').toArray()
-  containerDiv = $($(containerDiv[2]).children().toArray())
-  containerDiv = $(containerDiv[0]).children().toArray()
-  containerDiv = $(containerDiv[1]).children().toArray()
-  const artistDivText = $(containerDiv[2]).text().trim()
-  const songDivText = $(containerDiv[4]).text()
-
-  const artistName = artistDivText.substring(0, artistDivText.length-7)
-  const songName = songDivText.substring(1, songDivText.length - 1)
-  const lyrics = $(containerDiv[7]).text().trim()//.replace(/\s+/gim, ' ')
-
+function getLyrics (body) {
   return {
-    artistName,
-    songName,
-    lyrics,
-  }
+    lyrics: JSON.parse(body).message.body.lyrics.lyrics_body
+  };
 }
 
-function parseSearchResults (body) {
-  const $ = cheerio.load(body)
+function getResults (body) {
+  const track_list = JSON.parse(body).message.body.track_list
 
-  let searchResult = $($(body).find('table').toArray()[0]).children().toArray()[0]
-  searchResult = $(searchResult).children().toArray()
+  return track_list.map((el) => {
+    const {
+      track: {
+        track_id: trackId,
+        track_name: songName,
+        artist_name: artistName,
+      }
+    } = el;
 
-  const results = searchResult.map((item, i) => {
-    const songLink = $(item).find('a').attr('href')
-    const songName = $(item).find('a').text()
-    const artistName = $($(item).find('b').toArray()[1]).text()
     return {
-      songLink,
+      trackId,
       songName,
       artistName,
     }
   });
-
-  return results.slice(1, results.length-1)
 }
 
 router.get('/', function (req, res, next) {
   res.send('set of lyrics api');
 });
 
-router.post('/az', function (req, res, next) {
-  const { url } = req.body
-
-  console.log('received request --> ', url)
+router.get('/get/:trackId', function (req, res, next) {
+  const { trackId } = req.params
 
   var options = {
     method: 'GET',
-    url,
-    proxy: 'http://lum-customer-hl_0ab1d5ec-zone-static-country-gb:7dq5gloa7xda@zproxy.lum-superproxy.io:22225'
+    url: 'http://api.musixmatch.com/ws/1.1/track.lyrics.get',
+    qs: {
+      track_id: trackId,
+      apikey: '7c80e5e7f430562b61edae8165b751d7'
+    }
   };
-
-  console.log('option --> ', JSON.stringify(options, null, 2));
 
   request(options, function (error, response, body) {
     if (error) {
@@ -68,30 +53,32 @@ router.post('/az', function (req, res, next) {
       res.send({ error: true, erorObj: error });
     }
 
-    res.send(parsePageAZ(body));
+    res.send(getLyrics(body));
   });
 })
 
 router.get('/search', (req, res, next) => {
   const {
     q,
-    page
+    page = 1
   } = req.query;
 
   var options = {
     method: 'GET',
-    url: 'https://search.azlyrics.com/search.php',
+    url: 'http://api.musixmatch.com/ws/1.1/track.search',
     qs: {
       q,
-      w: 'songs',
-      p: page,
+      s_track_rating: 'desc',
+      apikey: API_KEY,
+      page_size: '10',
+      page
     }
   };
 
   request(options, function (error, response, body) {
     if (error) throw new Error(error);
   
-    res.send(parseSearchResults(body));
+    res.send(getResults(body));
   });  
 
 });

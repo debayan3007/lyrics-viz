@@ -59,7 +59,14 @@ class Feed extends Component {
   }
 
   itemClicked(event) {
-    this.props.clickHandler(event.target.getAttribute('url'))
+    const trackId = event.target.getAttribute('trackid')
+    const songName = event.target.getAttribute('artistname')
+    const artistName = event.target.getAttribute('songname')
+    this.props.clickHandler({
+      trackId,
+      songName,
+      artistName,
+    })
     this.setState({
       showResults: false,
     })
@@ -101,7 +108,12 @@ class Feed extends Component {
             {
               this.state.searchResults.map((item, i) => {
                 return (
-                  <ListGroup.Item action onClick={this.itemClicked} key={`result${i}`} url={item.songLink} >
+                  <ListGroup.Item action
+                    onClick={this.itemClicked} key={`result${i}`}
+                    trackid={item.trackId}
+                    artistname={item.artistName}
+                    songname={item.songName}
+                  >
                     {item.songName} <small style={{ color: '#ababab', pointerEvents: 'none' }}>by {item.artistName}</small>
                   </ListGroup.Item>
                 );

@@ -20,17 +20,17 @@ class Page extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick(inputValue) {
+  handleClick({
+    trackId,
+    songName = '#song name#',
+    artistName = '#artist name#',
+  }) {
     const self = this;
-    axios.post('/lyrics/az', {
-      url: inputValue,
-    })
+    axios.get(`/lyrics/get/${trackId}`)
       .then(function (response) {
         const {
-          lyrics,
-          songName,
-          artistName,
-        } = response.data
+          lyrics = '#lyrics#',
+        } = response.data;
 
         console.log(response.data);
 
