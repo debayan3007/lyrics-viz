@@ -57,6 +57,7 @@ router.post('/az', function (req, res, next) {
   var options = {
     method: 'GET',
     url,
+    proxy: 'http://110.74.208.154:21776'
   };
 
   console.log('option')
