@@ -57,7 +57,7 @@ router.post('/az', function (req, res, next) {
   var options = {
     method: 'GET',
     url,
-    // proxy: 'http://lum-customer-hl_0ab1d5ec-zone-static-route_err-pass_dyn:7dq5gloa7xda@zproxy.lum-superproxy.io:22225'
+    proxy: 'http://lum-customer-hl_0ab1d5ec-zone-static-country-gb:7dq5gloa7xda@zproxy.lum-superproxy.io:22225'
   };
 
   console.log('option --> ', JSON.stringify(options, null, 2));
