@@ -6,9 +6,14 @@ const request = require('request');
 const API_KEY = '7c80e5e7f430562b61edae8165b751d7';
 
 function getLyrics (body) {
-  const lyrics = JSON.parse(body).message.body.lyrics.lyrics_body;
+  let lyrics;
+  try {
+    lyrics = JSON.parse(body).message.body.lyrics.lyrics_body;
+  } catch (e) {
+    lyrics = '';
+  }
   return {
-    lyrics: lyrics.replace(`\n...\n\n******* This Lyrics is NOT for Commercial use *******`, '').split()
+    lyrics: lyrics.replace(`\n...\n\n******* This Lyrics is NOT for Commercial use *******`, '').trim()
   };
 }
 
