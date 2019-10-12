@@ -12,8 +12,11 @@ function getLyrics (body) {
   } catch (e) {
     lyrics = '';
   }
+
+  lyrics = lyrics.replace(`\n...\n\n******* This Lyrics is NOT for Commercial use *******`, '').trim()
+
   return {
-    lyrics: lyrics.replace(`\n...\n\n******* This Lyrics is NOT for Commercial use *******`, '').trim()
+    lyrics,
   };
 }
 
